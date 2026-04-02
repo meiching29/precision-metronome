@@ -40,18 +40,35 @@ export default function App() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#2a2a1a_0%,_#141410_60%)]" />
       </div>
 
-      <div className="relative z-10 flex items-start justify-center gap-3 w-full max-w-3xl">
+      <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start justify-center gap-4 w-full max-w-3xl">
 
         {/* ── Card principal ── */}
         <div className="w-full max-w-sm flex flex-col gap-4">
-          <div>
-            <h1 className="font-display text-sm tracking-[0.3em] uppercase text-obsidian-400">Precision</h1>
-            <h2 className="font-display text-lg tracking-[0.15em] text-obsidian-100">Metronome</h2>
+          <div className="flex justify-between items-start w-full px-1">
+            <div>
+              <h1 className="font-display text-sm tracking-[0.3em] uppercase text-obsidian-400">Precision</h1>
+              <h2 className="font-display text-lg tracking-[0.15em] text-obsidian-100">Metronome</h2>
+            </div>
+            {/* Mobile Buttons */}
+            <div className="flex sm:hidden gap-2">
+              <button
+                onClick={() => { setShowInfo(v => !v); setShowSettings(false); }}
+                className={`icon-btn ${showInfo ? 'text-amber-400 border-amber-500/40' : ''}`}
+                title="Info"
+              >
+                <Info size={15} />
+              </button>
+              <button
+                onClick={() => { setShowSettings(v => !v); setShowInfo(false); }}
+                className={`icon-btn ${showSettings ? 'text-amber-400 border-amber-500/40' : ''}`}
+                title="Settings"
+              >
+                <Settings size={15} />
+              </button>
+            </div>
           </div>
 
           <div className="rounded-2xl border border-obsidian-800 bg-obsidian-900/60 backdrop-blur-sm p-6 flex flex-col gap-5 shadow-2xl">
-
-            {/* Pendulum recibe beatTick e isAccentBeat */}
             <Pendulum
               isPlaying={isPlaying}
               bpm={config.bpm}
@@ -71,7 +88,7 @@ export default function App() {
             <BpmControl bpm={config.bpm} onChange={setBpm} />
             <div className="h-px bg-obsidian-800" />
 
-            <div className="flex gap-3">
+            <div className="flex max-sm:flex-col gap-3">
               <motion.button
                 onClick={handleTap}
                 animate={{ backgroundColor: tapFlash ? 'rgba(245,158,11,0.15)' : 'transparent' }}
@@ -100,41 +117,41 @@ export default function App() {
         </div>
 
         {/* ── Columna derecha: botones + panel ── */}
-        <div className="relative flex flex-col items-start gap-2 pt-1">
+        <div className="relative flex flex-col items-start gap-2 sm:pt-1 w-full sm:w-auto">
 
-          {/* Botón Info */}
-          <button
-            onClick={() => { setShowInfo(v => !v); setShowSettings(false); }}
-            className={`icon-btn ${showInfo ? 'text-amber-400 border-amber-500/40' : ''}`}
-            title="Info"
-          >
-            <Info size={15} />
-          </button>
+          {/* Botones Desktop */}
+          <div className="hidden sm:flex flex-col gap-2">
+            <button
+              onClick={() => { setShowInfo(v => !v); setShowSettings(false); }}
+              className={`icon-btn ${showInfo ? 'text-amber-400 border-amber-500/40' : ''}`}
+              title="Info"
+            >
+              <Info size={15} />
+            </button>
+            <button
+              onClick={() => { setShowSettings(v => !v); setShowInfo(false); }}
+              className={`icon-btn ${showSettings ? 'text-amber-400 border-amber-500/40' : ''}`}
+              title="Settings"
+            >
+              <Settings size={15} />
+            </button>
+          </div>
 
-          {/* Botón Settings */}
-          <button
-            onClick={() => { setShowSettings(v => !v); setShowInfo(false); }}
-            className={`icon-btn ${showSettings ? 'text-amber-400 border-amber-500/40' : ''}`}
-            title="Configuración"
-          >
-            <Settings size={15} />
-          </button>
-
-          {/* Panel — sale a la DERECHA de los botones */}
+          {/* Panel */}
           <AnimatePresence>
             {(showInfo || showSettings) && (
               <motion.div
                 key={showInfo ? 'info' : 'settings'}
-                initial={{ opacity: 0, x: 8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 8 }}
+                initial={{ opacity: 0, x: 0, y: 10 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                exit={{ opacity: 0, x: 0, y: 10 }}
                 transition={{ duration: 0.18 }}
-                className="absolute top-0 left-10 w-72 rounded-2xl border border-obsidian-800 bg-obsidian-900/98 backdrop-blur-sm shadow-2xl flex flex-col overflow-hidden z-30 sm:left-10 sm:top-0 max-sm:fixed max-sm:left-4 max-sm:right-4 max-sm:top-auto max-sm:bottom-4 max-sm:w-auto"
+                className="relative w-full sm:absolute sm:top-0 sm:left-[3.5rem] sm:w-72 rounded-2xl border border-obsidian-800 bg-obsidian-900/98 backdrop-blur-sm shadow-2xl flex flex-col overflow-hidden z-30"
               >
                 {/* Header */}
                 <div className="flex items-center justify-between px-4 py-3 border-b border-obsidian-800">
                   <span className="font-display text-xs tracking-[0.2em] uppercase text-obsidian-400">
-                    {showInfo ? 'Info' : 'Configuración'}
+                    {showInfo ? 'Info' : 'Settings'}
                   </span>
                   <button
                     onClick={closeAll}
@@ -145,46 +162,46 @@ export default function App() {
                 </div>
 
                 {/* Contenido */}
-                <div className="p-4 flex flex-col gap-4 overflow-y-auto max-h-[80vh]">
+                <div className="p-4 flex flex-col gap-4 overflow-y-auto max-h-[80vh] sm:max-h-[85vh]">
                   {showInfo && (
                     <div className="flex flex-col gap-3">
                       <div className="flex gap-3 items-start">
-                        <Play size={13} className="text-amber-400 mt-0.5 flex-shrink-0" fill="currentColor" />
+                        <Play size={13} className="text-amber-400 mt-1 flex-shrink-0" fill="currentColor" />
                         <div>
-                          <p className="font-body text-xs text-obsidian-200 font-medium mb-0.5">Start / Stop</p>
-                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Inicia o detiene el metrónomo.</p>
+                          <p className="font-body text-xs text-obsidian-200 font-medium mb-1">Start / Stop</p>
+                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Starts or stops the metronome.</p>
                         </div>
                       </div>
 
                       <div className="flex gap-3 items-start">
-                        <Hand size={13} className="text-amber-400 mt-0.5 flex-shrink-0" />
+                        <Hand size={13} className="text-amber-400 mt-1 flex-shrink-0" />
                         <div>
-                          <p className="font-body text-xs text-obsidian-200 font-medium mb-0.5">Tap Tempo</p>
-                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Toca el botón Tap al ritmo de una canción para detectar el BPM automáticamente.</p>
+                          <p className="font-body text-xs text-obsidian-200 font-medium mb-1">Tap Tempo</p>
+                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Tap the button to the rhythm of a song to automatically detect the BPM.</p>
                         </div>
                       </div>
 
                       <div className="flex gap-3 items-start">
-                        <SlidersHorizontal size={13} className="text-amber-400 mt-0.5 flex-shrink-0" />
+                        <SlidersHorizontal size={13} className="text-amber-400 mt-1 flex-shrink-0" />
                         <div>
-                          <p className="font-body text-xs text-obsidian-200 font-medium mb-0.5">Ajustar BPM</p>
-                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Mueve el slider o usa la rueda del mouse sobre el número para cambiar el tempo.</p>
+                          <p className="font-body text-xs text-obsidian-200 font-medium mb-1">Adjust BPM</p>
+                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Move the slider or use the mouse wheel over the number to change the tempo.</p>
                         </div>
                       </div>
 
                       <div className="flex gap-3 items-start">
-                        <Music size={13} className="text-amber-400 mt-0.5 flex-shrink-0" />
+                        <Music size={13} className="text-amber-400 mt-1 flex-shrink-0" />
                         <div>
-                          <p className="font-body text-xs text-obsidian-200 font-medium mb-0.5">Compás</p>
-                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Elige el compás en Configuración. El primer golpe siempre suena acentuado.</p>
+                          <p className="font-body text-xs text-obsidian-200 font-medium mb-1">Time Signature</p>
+                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Choose the time signature in Settings. The first beat is always accented.</p>
                         </div>
                       </div>
 
                       <div className="flex gap-3 items-start">
-                        <TrendingUp size={13} className="text-amber-400 mt-0.5 flex-shrink-0" />
+                        <TrendingUp size={13} className="text-amber-400 mt-1 flex-shrink-0" />
                         <div>
-                          <p className="font-body text-xs text-obsidian-200 font-medium mb-0.5">Practice Mode</p>
-                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Sube el BPM automáticamente cada N compases. Ideal para estudiar pasajes difíciles progresivamente.</p>
+                          <p className="font-body text-xs text-obsidian-200 font-medium mb-1">Practice Mode</p>
+                          <p className="font-body text-xs text-obsidian-500 leading-relaxed">Automatically increases the BPM every N bars. Ideal for progressively practicing difficult passages.</p>
                         </div>
                       </div>
                     </div>
@@ -202,7 +219,7 @@ export default function App() {
                       <div className="h-px bg-obsidian-800" />
                       <div className="flex flex-col gap-2">
                         <label className="font-body text-xs tracking-[0.2em] uppercase text-obsidian-500">
-                          Volumen
+                          Volume
                         </label>
                         <VolumeControl value={config.volume} onChange={setVolume} />
                       </div>

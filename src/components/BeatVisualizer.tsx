@@ -9,7 +9,7 @@ interface Props {
 
 export function BeatVisualizer({ beats, activeBeat, isAccentBeat, isPlaying }: Props) {
   return (
-    <div className="flex items-center justify-center gap-3 py-4">
+    <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 py-4">
       {Array.from({ length: beats }).map((_, i) => {
         const isActive = activeBeat === i && isPlaying;
         const isAccent = i === 0;

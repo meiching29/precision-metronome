@@ -28,7 +28,7 @@ export function BpmControl({ bpm, onChange, disabled }: Props) {
   return (
     <div className="flex flex-col items-center gap-3">
       {/* BPM display */}
-      <div className="relative select-none cursor-ns-resize" onWheel={onWheel} title="Scroll para ajustar BPM">
+      <div className="relative select-none cursor-ns-resize" onWheel={onWheel} title="Scroll to adjust BPM">
         <motion.div
           key={bpm}
           initial={{ y: -4, opacity: 0.6 }}
@@ -36,7 +36,7 @@ export function BpmControl({ bpm, onChange, disabled }: Props) {
           transition={{ duration: 0.12 }}
           className="flex items-end gap-2"
         >
-          <span className="font-display text-[6rem] leading-none font-medium tracking-tighter text-amber-400">
+          <span className="font-display text-[4.5rem] sm:text-[6rem] leading-none font-medium tracking-tighter text-amber-400">
             {bpm}
           </span>
           <span className="font-display text-xl text-obsidian-400 mb-4 tracking-widest uppercase">

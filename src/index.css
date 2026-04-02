@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom range slider */
+.bpm-slider {
+  @apply w-full appearance-none h-1 rounded-full outline-none cursor-pointer;
+  background: linear-gradient(to right,
+      #f59e0b calc(var(--pct, 50%) * 1%),
+      #2a2a22 calc(var(--pct, 50%) * 1%));
+}
+
+.bpm-slider::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 rounded-full bg-amber-400 border-2 border-amber-300 shadow-md cursor-pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.bpm-slider::-moz-range-thumb {
+  @apply w-4 h-4 rounded-full bg-amber-400 border-2 border-amber-300 shadow-md cursor-pointer border-none;
+}
+
+.bpm-slider:hover::-webkit-slider-thumb {
+  @apply scale-125;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2);
+}
+
+/* Ghost button */
+.btn-ghost {
+  @apply px-3 py-1.5 rounded-lg border border-obsidian-700 text-obsidian-400 hover:border-obsidian-500 hover:text-obsidian-200 transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed;
+}
+
+/* Icon button */
+.icon-btn {
+  @apply w-8 h-8 flex items-center justify-center rounded-lg border border-obsidian-700 text-obsidian-500 hover:border-obsidian-500 hover:text-obsidian-200 transition-colors duration-150;
+}
+
+/* Practice input */
+.practice-input {
+  @apply w-14 bg-obsidian-800 border border-obsidian-700 rounded-lg font-display text-sm text-obsidian-200 text-center py-1 outline-none focus:border-amber-500/60 transition-colors;
+  -moz-appearance: textfield;
+}
+
+.practice-input::-webkit-inner-spin-button,
+.practice-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}

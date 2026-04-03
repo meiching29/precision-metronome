@@ -44,15 +44,18 @@ export default function App() {
   const closeAll = () => { setShowInfo(false); setShowSettings(false); };
 
   const handleToggle = () => {
-    try {
-      const silentCtx = new AudioContext();
-      const buf = silentCtx.createBuffer(1, 1, 22050);
-      const src = silentCtx.createBufferSource();
-      src.buffer = buf;
-      src.connect(silentCtx.destination);
-      src.start(0);
-      silentCtx.resume().then(() => silentCtx.close());
-    } catch { }
+    if (!isPlaying) {
+      // Desbloquear audio de forma síncrona — funciona en iOS Safari, Chrome y Brave móvil
+      try {
+        const unlock = new AudioContext();
+        const buf = unlock.createBuffer(1, 1, 22050);
+        const src = unlock.createBufferSource();
+        src.buffer = buf;
+        src.connect(unlock.destination);
+        src.start(0);
+        setTimeout(() => unlock.close(), 100);
+      } catch { }
+    }
     toggle();
   };
 

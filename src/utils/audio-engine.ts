@@ -131,11 +131,14 @@ export class AudioEngine {
   // Lifecycle 
 
   start(bpm: number, beatsPerBar: number, soundType: SoundType, volume: number, onBeat: BeatCallback) {
-    // Limpiar cualquier sesión previa antes de arrancar
     this.stopInternal();
 
-    // Crear siempre un contexto fresco — garantiza estado limpio
     this.ctx = new AudioContext();
+
+    // Fix móvil: algunos browsers requieren resume() explícito después de crear el contexto
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
 
     this.bpm = bpm;
     this.beatsPerBar = beatsPerBar;

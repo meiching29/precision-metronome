@@ -1,1 +1,1 @@
-{"outputDirectory":"dist","buildCommand":"npx --yes vite build","framework":"vite","installCommand":"npm install"}
+{"outputDirectory":"dist","buildCommand":"npm install --production=false && npx vite build","framework":"vite"}

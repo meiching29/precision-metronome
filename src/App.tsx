@@ -11,6 +11,8 @@ import { SoundSelector } from './components/SoundSelector';
 import { VolumeControl } from './components/VolumeControl';
 import { PracticeMode } from './components/PracticeMode';
 
+import { audioEngine, AudioEngine } from './utils/audio-engine';
+
 export default function App() {
   const {
     config, isPlaying, activeBeat, isAccentBeat, beatTick,
@@ -40,6 +42,15 @@ export default function App() {
   };
 
   const closeAll = () => { setShowInfo(false); setShowSettings(false); };
+
+  const handleToggle = async () => {
+    try {
+      const ctx = new AudioContext();
+      await ctx.resume();
+      await ctx.close();
+    } catch { }
+    toggle();
+  };
 
   return (
     <div className="min-h-screen bg-obsidian-950 text-obsidian-100 flex items-center justify-center p-4 selection:bg-amber-500/20">
@@ -109,7 +120,7 @@ export default function App() {
               </motion.button>
 
               <motion.button
-                onClick={toggle}
+                onClick={handleToggle}
                 whileTap={{ scale: 0.95 }}
                 className={`flex-[2] flex items-center justify-center gap-2 py-3 rounded-xl font-body text-sm font-medium transition-all duration-200 ${isPlaying
                   ? 'bg-obsidian-800 border border-obsidian-600 text-obsidian-200 hover:bg-obsidian-700'

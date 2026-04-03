@@ -43,11 +43,15 @@ export default function App() {
 
   const closeAll = () => { setShowInfo(false); setShowSettings(false); };
 
-  const handleToggle = async () => {
+  const handleToggle = () => {
     try {
-      const ctx = new AudioContext();
-      await ctx.resume();
-      await ctx.close();
+      const silentCtx = new AudioContext();
+      const buf = silentCtx.createBuffer(1, 1, 22050);
+      const src = silentCtx.createBufferSource();
+      src.buffer = buf;
+      src.connect(silentCtx.destination);
+      src.start(0);
+      silentCtx.resume().then(() => silentCtx.close());
     } catch { }
     toggle();
   };

@@ -128,6 +128,12 @@ export class AudioEngine {
 
   private onBeat: BeatCallback | null = null;
 
+  // Agrega esta función estática al inicio de la clase
+  static unlockAudio(): Promise<void> {
+    const ctx = new AudioContext();
+    return ctx.resume().then(() => ctx.close());
+  }
+
   // Lifecycle 
 
   start(bpm: number, beatsPerBar: number, soundType: SoundType, volume: number, onBeat: BeatCallback) {

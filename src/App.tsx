@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Hand, Settings, Info, X, SlidersHorizontal, Music, TrendingUp } from 'lucide-react';
 
@@ -23,6 +23,15 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [tapFlash, setTapFlash] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if ((showInfo || showSettings) && window.innerWidth < 640) {
+      setTimeout(() => {
+        panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [showInfo, showSettings]);
 
   const handleTap = () => {
     tap();
@@ -141,6 +150,7 @@ export default function App() {
           <AnimatePresence>
             {(showInfo || showSettings) && (
               <motion.div
+                ref={panelRef}
                 key={showInfo ? 'info' : 'settings'}
                 initial={{ opacity: 0, x: 0, y: 10 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
